@@ -1,0 +1,35 @@
+.box {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    float: left;
+    /* padding-right: 10px; */
+    /* height: 50px; */
+}
+
+.logo-text {
+    text-transform: none !important;
+}
+
+.logo h1 {
+    position: relative;
+}
+
+.navbar .navbar-brand h2 {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 2rem !important;
+    font-weight: 800;
+    letter-spacing: 1px;
+    -webkit-transition: all .3s ease 0s;
+    -moz-transition: all .3s ease 0s;
+    -moz-transition: all .3s ease 0s;
+    transition: all .3s ease 0s;
+}
+
+.navbar .navbar-brand h2 em {
+    font-style: normal;
+    color: #f4813f;
+}

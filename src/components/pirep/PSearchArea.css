@@ -1,0 +1,59 @@
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 0.75rem 0.75rem !important;
+    color: #fff !important;
+}
+
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    border-color: #6C7592;
+    background: #364350;
+    border-radius: 8px;
+}
+
+.css-i4bv87-MuiSvgIcon-root {
+    color: #DCBB87;
+}
+
+
+.react-bs-table-sizePerPage-dropdown {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.react-bs-table-sizePerPage-dropdown button {
+    background: #192320;
+    color: #fff;
+}
+
+.react-bs-table-sizePerPage-dropdown ul {
+    background: #192320;
+    color: #fff;
+}
+
+.react-bs-table-sizePerPage-dropdown ul a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.react-bootstrap-table-pagination {
+    margin-top: 10vh !important;
+    margin-bottom: 10vh;
+}
+
+/* .react-bs-table-sizePerPage-dropdown li.dropdown-item:hover {
+    color: #DCBB87 !important;
+} */
+
+.dropdown-item:hover {
+    background-color: #DCBB87 !important;
+}
+
+.dropdown-toggle::after {
+    vertical-align: 0.255em !important;
+    content: "" !important;
+    border-top: 0.3em solid !important;
+    border-right: 0.3em solid transparent !important;
+    border-bottom: 0 !important;
+    border-left: 0.3em solid transparent !important;
+}
