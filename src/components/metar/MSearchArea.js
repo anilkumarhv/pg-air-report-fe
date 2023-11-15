@@ -3,6 +3,8 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import TextField from '@mui/material/TextField';
+import BootstrapTable from "react-bootstrap-table-next";
+import filterFactory from "react-bootstrap-table2-filter";
 
 import momentTimezone from "moment-timezone";
 import '../pirep/PSearchArea.css'
@@ -19,6 +21,8 @@ export default function MSearchArea(props) {
     const [pirepCondition, setPirepCondition] = useState(false);
     const [missingPirep, setMissingPirep] = useState(false);
 
+    const [loading, setLoading] = useState(false);
+
     momentTimezone.tz.setDefault('UTC');
     const timeZoneFromServer = "UTC";
     const { moment } = new AdapterMoment({ instance: momentTimezone });
@@ -26,10 +30,18 @@ export default function MSearchArea(props) {
     const [endDateTime, setEndDateTime] = useState(moment().tz(timeZoneFromServer));
 
     const getPirepReport = async () => {
-        const { data } = await getMetarReports(code, startDateTime.toISOString(), endDateTime.toISOString(), pirepCondition, missingPirep);
-        console.log(data);
-        data.forEach((obj, index) => { obj.__id = index + 1 });
-        setReportsData(data);
+        try {
+            setLoading(true)
+            const { data } = await getMetarReports(code, startDateTime.toISOString(), endDateTime.toISOString(), pirepCondition, missingPirep);
+            console.log(data);
+            data.forEach((obj, index) => { obj.__id = index + 1 });
+            setReportsData(data);
+        } catch (error) {
+            console.error("An error occurred while fetching PIREP reports:", error);
+            setReportsData([])
+        } finally {
+            setLoading(false)
+        }
     }
 
     const handleSubmit = (event) => {
@@ -53,6 +65,31 @@ export default function MSearchArea(props) {
         setMissingPirep(false);
         setPirepCondition(false);
     };
+
+    const emptyDataMessage = () => { return 'No Data to Display'; }
+
+    const dbColumns = [
+        {
+            dataField: "__id",
+            text: "ID",
+            sort: true
+        },
+        {
+            dataField: "rawText",
+            text: "Raw Text",
+            sort: true
+        },
+        {
+            dataField: "aircraftRef",
+            text: "AirCraft ref",
+            sort: true
+        },
+        {
+            dataField: "observationTime",
+            text: "Observation Time",
+            sort: true
+        }
+    ];
 
     return (
         <>
@@ -159,6 +196,20 @@ export default function MSearchArea(props) {
                 <div className='feature-area pt-120 pb-120'>
                     <div className="container">
                         <div className="row">
+                            <BootstrapTable
+                                keyField="__id"
+                                data={[]}
+                                noDataIndication={emptyDataMessage}
+                                columns={dbColumns}
+                                hover
+                                condensed
+                                filter={filterFactory()}
+                                classes={
+                                    "table align-middle table-nowrap table-check"
+                                }
+                                headerWrapperClasses={"table-light"}
+                                headerClasses="header-class"
+                            />
                         </div>
                     </div>
                 </div>
