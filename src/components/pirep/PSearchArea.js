@@ -5,6 +5,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import TextField from '@mui/material/TextField';
 import BootstrapTable from "react-bootstrap-table-next";
 import filterFactory from "react-bootstrap-table2-filter";
+import { Spinner, Alert, Button, Modal } from 'react-bootstrap';
 
 import momentTimezone from "moment-timezone";
 import './PSearchArea.css'
@@ -29,6 +30,8 @@ export default function PSearchArea(props) {
     const [visibility, setVisibility] = useState("");
 
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     momentTimezone.tz.setDefault('UTC');
     const timeZoneFromServer = "UTC";
@@ -56,13 +59,19 @@ export default function PSearchArea(props) {
 
     const getPirepReport = async () => {
         try {
+            setError(null)
             setLoading(true)
+            setShowModal(true)
+            // await new Promise(resolve => setTimeout(resolve, 10000));
             const { data } = await getPirepReports(code, startDateTime.toISOString(), endDateTime.toISOString(), distance, ic, tb, ts, llws, type, visibility);
             console.log(data);
             data.forEach((obj, index) => { obj.__id = index + 1 });
             setReportsData(data);
+            setShowModal(false);
+            setError(null);
         } catch (error) {
             console.error("An error occurred while fetching PIREP reports:", error);
+            setError(error.message || 'An error occurred while fetching PIREP reports.');
             setReportsData([])
         } finally {
             setLoading(false)
@@ -258,6 +267,37 @@ export default function PSearchArea(props) {
                     </div>
                 </div>
             </div>
+            <Modal show={showModal} centered>
+                {error && (
+                    <Modal.Header>
+                        <Modal.Title>PIREP Reports</Modal.Title>
+                    </Modal.Header>
+                )}
+                <Modal.Body className="d-flex">
+                    {loading ? (
+                        <>
+                            <Spinner animation="border" variant="primary" style={{ marginRight: '5px' }} className="spinner-custom-color" />
+                            <span>Fetching reports...</span>
+                        </>
+                    ) : error ? (
+                        <>
+                            <Alert variant="danger" style={{ width: '100%' }}>{error}</Alert>
+                        </>
+                    ) : null}
+                </Modal.Body>
+                {error && (
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={getPirepReport} className="modal-btn">
+                            Retry
+                        </Button>
+
+                        <Button variant="secondary" onClick={() => setShowModal(false)} className="modal-btn">
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                )}
+            </Modal>
+
             {
                 reportsData && reportsData?.length > 0 && <ShowDatatable reportData={reportsData} />
             }

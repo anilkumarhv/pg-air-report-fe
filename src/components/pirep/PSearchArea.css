@@ -57,3 +57,16 @@
     border-bottom: 0 !important;
     border-left: 0.3em solid transparent !important;
 }
+
+.modal-btn {
+    border: none;
+    background: #DCBB87;
+    color: #1F2E3C;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all .5s ease-in-out;
+}
+
+.spinner-custom-color {
+    border-color: #DCBB87 transparent transparent transparent;
+}
