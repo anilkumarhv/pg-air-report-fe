@@ -44,8 +44,8 @@ export default function MSearchArea(props) {
             setShowModal(false);
             setError(null);
         } catch (error) {
-            console.error("An error occurred while fetching PIREP reports:", error);
-            setError(error.message || 'An error occurred while fetching Metar reports.');
+            console.error("An error occurred while fetching METAR reports:", error);
+            setError(error.response.data.message || error.message || 'An error occurred while fetching Metar reports.');
             setReportsData([])
         } finally {
             setLoading(false)

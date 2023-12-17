@@ -71,7 +71,7 @@ export default function PSearchArea(props) {
             setError(null);
         } catch (error) {
             console.error("An error occurred while fetching PIREP reports:", error);
-            setError(error.message || 'An error occurred while fetching PIREP reports.');
+            setError(error.response.data.message || error.message || 'An error occurred while fetching PIREP reports.');
             setReportsData([])
         } finally {
             setLoading(false)
